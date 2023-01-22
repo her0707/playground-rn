@@ -13,7 +13,10 @@ type Props = {
 
 function GoalItem({ data, removeGoalHandler }: Props) {
   return (
-    <Pressable onPress={() => removeGoalHandler(data.id)}>
+    <Pressable
+      onPress={() => removeGoalHandler(data.id)}
+      style={({ pressed }) => pressed && styles.pressedItem}
+    >
       <View style={styles.listContainer}>
         <Text>{data.text}</Text>
       </View>
@@ -26,6 +29,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#ccc",
     padding: 10,
+  },
+  pressedItem: {
+    opacity: 0.5,
   },
 });
 
