@@ -1,8 +1,16 @@
-import { TextInput, View, StyleSheet, Alert } from "react-native";
+import { TextInput, View, StyleSheet, Alert, Text } from "react-native";
 import { useState } from "react";
-import PrimaryButton from "../../components/primary-button";
+import PrimaryButton from "../../components/ui/primary-button";
+import Colors from "../../constants/colors";
+import Title from "../../components/ui/title";
+import Card from "../../components/ui/card";
+import InstructionText from "../../components/ui/instruction-text";
 
-function Main() {
+type Props = {
+  onSelectNumber: (number: number) => void;
+};
+
+function Main({ onSelectNumber }: Props) {
   const [number, setNumber] = useState<string>("");
 
   function resetNumber() {
@@ -18,28 +26,35 @@ function Main() {
       ]);
       return;
     }
+    onSelectNumber(chosenNumber);
   }
 
   return (
     <>
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={styles.numberInput}
-          maxLength={2}
-          keyboardType="number-pad"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={number}
-          onChangeText={(text) => setNumber(text)}
-        />
-        <View style={styles.buttonsWrapper}>
-          <View style={styles.buttonWrapper}>
-            <PrimaryButton onPress={resetNumber}>Reset</PrimaryButton>
+      <View style={styles.wrapper}>
+        <Title>숫자를 맞춰보세요</Title>
+        <Card>
+          <InstructionText>숫자를 입력하세요</InstructionText>
+          <TextInput
+            style={styles.numberInput}
+            maxLength={2}
+            keyboardType="number-pad"
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={number}
+            onChangeText={(text) => setNumber(text)}
+          />
+          <View style={styles.buttonsWrapper}>
+            <View style={styles.buttonWrapper}>
+              <PrimaryButton onPress={resetNumber}>Reset</PrimaryButton>
+            </View>
+            <View style={styles.buttonWrapper}>
+              <PrimaryButton onPress={validateInputValue}>
+                Confirm
+              </PrimaryButton>
+            </View>
           </View>
-          <View style={styles.buttonWrapper}>
-            <PrimaryButton onPress={validateInputValue}>Confirm</PrimaryButton>
-          </View>
-        </View>
+        </Card>
       </View>
     </>
   );
@@ -48,25 +63,17 @@ function Main() {
 export default Main;
 
 const styles = StyleSheet.create({
-  inputWrapper: {
-    alignItems: "center",
-    padding: 16,
-    marginHorizontal: 24,
+  wrapper: {
+    flex: 1,
     marginTop: 100,
-    backgroundColor: "#3b021f",
-    borderRadius: 8,
-    elevation: 4,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    shadowOpacity: 0.25,
+    alignItems: "center",
   },
   numberInput: {
     height: 50,
     fontSize: 32,
-    borderBottomColor: "#ddb52f",
+    borderBottomColor: Colors.accent500,
     borderBottomWidth: 2,
-    color: "#ddb52f",
+    color: Colors.accent500,
     marginVertical: 8,
     fontWeight: "bold",
     width: 50,
